@@ -138,5 +138,30 @@ function drawCanvas() {
   drawFood(); // Draw the food
 }
 
+
+// Function to open the tutorial overlay
+function openTutorial() {
+  const tutorialOverlay = document.getElementById("tutorialOverlay");
+  tutorialOverlay.style.display = "flex";
+}
+
+// Function to close the tutorial overlay
+function closeTutorial() {
+  const tutorialOverlay = document.getElementById("tutorialOverlay");
+  tutorialOverlay.style.display = "none";
+}
+
+// Add event listeners for buttons
+document.addEventListener("DOMContentLoaded", () => {
+  const tutorialButton = document.getElementById("tutorialButton");
+  const closeTutorialButton = document.getElementById("closeTutorialButton");
+
+  // Tutorial button opens the tutorial overlay
+  tutorialButton.addEventListener("click", openTutorial);
+
+  // Close button inside the tutorial overlay
+  closeTutorialButton.addEventListener("click", closeTutorial);
+});
+
 // Initial rendering of the canvas
 drawCanvas();
