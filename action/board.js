@@ -1,6 +1,6 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-
+const snekSpeed = 0;
 // Define the grid size
 const tileSize = 33.5;
 
@@ -119,6 +119,12 @@ function drawSnake() {
     }
   });
 }
+
+//Passing Snek state 
+function UpdateSpeed() {
+  let verticalX
+}
+
 //Draw the food for the snake
 function drawFood() {
   const food = { x: 10, y: 10 }; // Fixed spawn location for the food

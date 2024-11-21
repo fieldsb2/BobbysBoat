@@ -1,5 +1,3 @@
-const score = document.getElementById("score");
-score.innerHTML = "Score";
 
 // Adding console logs for each direction clicked
 document
