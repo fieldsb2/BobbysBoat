@@ -8,6 +8,10 @@ let speedX = 0;
 let speedY = 0;
 // Define the grid size
 const tileSize = 33.5;
+let total_row = 0;
+let Snake = [];
+Snake[] = 
+{  x: 5, y: 5 };
 
 // Define two shades of green for the grass
 const greenShades = [
@@ -57,7 +61,7 @@ function drawSnake() {
   ];
 
   // Draw each segment of the snake
-  snake.forEach((segment, index) => {
+  Snake.forEach((segment, index) => {
     ctx.fillStyle = index === 0 ? "yellow" : "yellow"; // Snake head is yellow, others are green
     ctx.fillRect(
       segment.x * tileSize,
