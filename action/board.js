@@ -1,6 +1,11 @@
+/*
+* Make everything a global variable. For ease of access
+*/
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-const snekSpeed = 0;
+//Snek Speed set to 0, so when user starts up screen 
+let speedX = 0;
+let speedY = 0;
 // Define the grid size
 const tileSize = 33.5;
 
