@@ -125,9 +125,6 @@ function drawSnake() {
   });
 }
 
-function SnekSpeed() {
-  drawSnake().snake;
-}
 //Draw the food for the snake
 function drawFood() {
   const food = { x: 10, y: 10 }; // Fixed spawn location for the food
