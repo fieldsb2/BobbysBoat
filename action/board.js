@@ -10,8 +10,7 @@ let speedY = 0;
 const tileSize = 33.5;
 let total_row = 0;
 let Snake = [];
-Snake[] = 
-{  x: 5, y: 5 };
+Snake[0] = {  x: 5, y: 5 };
 
 // Define two shades of green for the grass
 const greenShades = [
