@@ -171,3 +171,71 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Initial rendering of the canvas
 drawCanvas();
+
+
+
+// Adding console logs for each direction clicked
+document.getElementById("up").addEventListener("click", () => console.log("up"));
+document.getElementById("down").addEventListener("click", () => console.log("down"));
+document.getElementById("left").addEventListener("click", () => console.log("left"));
+document.getElementById("right").addEventListener("click", () => console.log("right"));
+
+//Logs arrow key presses with same D-Pad functionality
+document.addEventListener("keydown", (event) => {
+  switch (event.key) {
+    case "ArrowUp":
+      console.log("up");
+      break;
+    case "ArrowDown":
+      console.log("down");
+      break;
+    case "ArrowLeft":
+      console.log("left");
+      break;
+    case "ArrowRight":
+      console.log("right");
+      break;
+    default:
+      // Do nothing for other keys
+      break;
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const pauseButton = document.getElementById("pauseButton");
+  const pauseOverlay = document.getElementById("pauseOverlay");
+  const pauseText = document.getElementById("pauseText");
+
+  function PauseGame() {
+    // Show the pause overlay
+    if (
+      pauseOverlay.style.display === "none" ||
+      pauseOverlay.style.display === ""
+    ) {
+      pauseOverlay.style.display = "flex";
+      pauseText.textContent = "Pause";
+    } else {
+      StartCountdown();
+    }
+  }
+
+  function StartCountdown() {
+    let countdown = 3;
+    pauseText.textContent = countdown;
+
+    const interval = setInterval(() => {
+      countdown--;
+      if (countdown > 0) {
+        pauseText.textContent = countdown;
+      } else {
+        clearInterval(interval);
+        pauseOverlay.style.display = "none";
+      }
+    }, 1000);
+  }
+
+  pauseButton.addEventListener("click", PauseGame);
+
+  pauseOverlay.addEventListener("click", StartCountdown);
+});
+
