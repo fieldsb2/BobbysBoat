@@ -1,22 +1,24 @@
-/*
-* Make everything a global variable. For ease of access
-*/
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-//Snek Speed set to 0, so when user starts up screen 
-let speedX = 0;
-let speedY = 0;
+
 // Define the grid size
 const tileSize = 33.5;
-let total_row = 0;
-let Snake = [];
-Snake[0] = {  x: 5, y: 5 };
 
 // Define two shades of green for the grass
 const greenShades = [
   "#228B22", // Forest green
   "#32CD32", // Lime green
 ];
+
+// Snake starting position
+let snake = [
+  { x: 5, y: 5 }, // Head of the snake
+  { x: 4, y: 5 }, // Middle part
+  { x: 3, y: 5 }, // Tail part
+];
+
+// Snake direction (default is right)
+let direction = "right";
 
 // Draw the grass with alternating shades of green
 function drawGrass() {
@@ -53,14 +55,7 @@ function drawGrid() {
 
 // Draw the snake with two eyes
 function drawSnake() {
-  const snake = [
-    { x: 5, y: 5 }, // Head of the snake
-    { x: 4, y: 5 }, // Middle part
-    { x: 3, y: 5 }, // Tail part
-  ];
-
-  // Draw each segment of the snake
-  Snake.forEach((segment, index) => {
+  snake.forEach((segment, index) => {
     ctx.fillStyle = index === 0 ? "yellow" : "yellow"; // Snake head is yellow, others are green
     ctx.fillRect(
       segment.x * tileSize,
@@ -80,7 +75,6 @@ function drawSnake() {
 
     // Draw eyes on the snake's head (first segment)
     if (index === 0) {
-      // Draw left eye
       ctx.fillStyle = "white";
       ctx.beginPath();
       ctx.arc(
@@ -92,7 +86,6 @@ function drawSnake() {
       );
       ctx.fill();
 
-      // Draw right eye
       ctx.beginPath();
       ctx.arc(
         segment.x * tileSize + tileSize * 0.7,
@@ -103,7 +96,6 @@ function drawSnake() {
       );
       ctx.fill();
 
-      // Draw pupils
       ctx.fillStyle = "black";
       ctx.beginPath();
       ctx.arc(
@@ -128,7 +120,7 @@ function drawSnake() {
   });
 }
 
-//Draw the food for the snake
+// Draw the food for the snake
 function drawFood() {
   const food = { x: 10, y: 10 }; // Fixed spawn location for the food
 
@@ -139,106 +131,46 @@ function drawFood() {
   ctx.strokeStyle = "darkred";
   ctx.strokeRect(food.x * tileSize, food.y * tileSize, tileSize, tileSize);
 }
+
 // Draw the entire canvas
 function drawCanvas() {
   drawGrass(); // Draw the grass background with alternating colors
   drawGrid(); // Draw the grid
-  drawSnake(); // Draw the static snake
+  drawSnake(); // Draw the snake
   drawFood(); // Draw the food
 }
 
+// Update snake position based on direction
+function updateSnake() {
+  const head = { ...snake[0] };
 
-// Function to open the tutorial overlay
-function openTutorial() {
-  const tutorialOverlay = document.getElementById("tutorialOverlay");
-  tutorialOverlay.style.display = "flex";
+  // Update head position based on direction
+  if (direction === "right") head.x += 1;
+  if (direction === "left") head.x -= 1;
+  if (direction === "up") head.y -= 1;
+  if (direction === "down") head.y += 1;
+
+  // Add new head to the snake
+  snake.unshift(head);
+  snake.pop(); // Remove the tail
 }
 
-// Function to close the tutorial overlay
-function closeTutorial() {
-  const tutorialOverlay = document.getElementById("tutorialOverlay");
-  tutorialOverlay.style.display = "none";
-}
-
-// Add event listeners for buttons
-document.addEventListener("DOMContentLoaded", () => {
-  const tutorialButton = document.getElementById("tutorialButton");
-  const closeTutorialButton = document.getElementById("closeTutorialButton");
-
-  // Tutorial button opens the tutorial overlay
-  tutorialButton.addEventListener("click", openTutorial);
-
-  // Close button inside the tutorial overlay
-  closeTutorialButton.addEventListener("click", closeTutorial);
+// Handle keyboard input for D-pad
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowUp" && direction !== "down") direction = "up";
+  if (e.key === "ArrowDown" && direction !== "up") direction = "down";
+  if (e.key === "ArrowLeft" && direction !== "right") direction = "left";
+  if (e.key === "ArrowRight" && direction !== "left") direction = "right";
 });
 
-// Initial rendering of the canvas
+// Game loop to update and render the game
+function gameLoop() {
+  updateSnake();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawCanvas();
+  setTimeout(gameLoop, 200); // Adjust speed (200ms per frame)
+}
+
+// Start the game loop
 drawCanvas();
-
-
-
-// Adding console logs for each direction clicked
-document.getElementById("up").addEventListener("click", () => console.log("up"));
-document.getElementById("down").addEventListener("click", () => console.log("down"));
-document.getElementById("left").addEventListener("click", () => console.log("left"));
-document.getElementById("right").addEventListener("click", () => console.log("right"));
-
-//Logs arrow key presses with same D-Pad functionality
-document.addEventListener("keydown", (event) => {
-  switch (event.key) {
-    case "ArrowUp":
-      console.log("up");
-      break;
-    case "ArrowDown":
-      console.log("down");
-      break;
-    case "ArrowLeft":
-      console.log("left");
-      break;
-    case "ArrowRight":
-      console.log("right");
-      break;
-    default:
-      // Do nothing for other keys
-      break;
-  }
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-  const pauseButton = document.getElementById("pauseButton");
-  const pauseOverlay = document.getElementById("pauseOverlay");
-  const pauseText = document.getElementById("pauseText");
-
-  function PauseGame() {
-    // Show the pause overlay
-    if (
-      pauseOverlay.style.display === "none" ||
-      pauseOverlay.style.display === ""
-    ) {
-      pauseOverlay.style.display = "flex";
-      pauseText.textContent = "Pause";
-    } else {
-      StartCountdown();
-    }
-  }
-
-  function StartCountdown() {
-    let countdown = 3;
-    pauseText.textContent = countdown;
-
-    const interval = setInterval(() => {
-      countdown--;
-      if (countdown > 0) {
-        pauseText.textContent = countdown;
-      } else {
-        clearInterval(interval);
-        pauseOverlay.style.display = "none";
-      }
-    }, 1000);
-  }
-
-  pauseButton.addEventListener("click", PauseGame);
-
-  pauseOverlay.addEventListener("click", StartCountdown);
-});
-
+gameLoop();
