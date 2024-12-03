@@ -11,15 +11,19 @@ document.getElementById("right").addEventListener("click", () => console.log("ri
 document.addEventListener("keydown", (event) => {
   switch (event.key) {
     case "ArrowUp":
+    case "KeyW":
       console.log("up");
       break;
     case "ArrowDown":
+    case "KeyS":
       console.log("down");
       break;
     case "ArrowLeft":
+    case "KeyA":
       console.log("left");
       break;
     case "ArrowRight":
+    case "KeyD":
       console.log("right");
       break;
     default:
