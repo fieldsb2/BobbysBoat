@@ -234,6 +234,8 @@ document.addEventListener("keydown", (e) => {
 
 let isPaused = false; // Track pause state
 
+let movementSpeed = 200; // snake movement speed
+
 function gameLoop() {
   if (isPaused) return; // Stop execution if the game is paused
 
@@ -241,7 +243,7 @@ function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawCanvas();
 
-  setTimeout(gameLoop, 200); // Adjust speed (200ms per frame)
+  setTimeout(gameLoop, movementSpeed); // Adjust speed (200ms per frame)
 }
 
 function startGame() {
