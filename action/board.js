@@ -1,5 +1,6 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
+let gameOver = false
 
 // Define the grid size
 const tileSize = 33.5;
@@ -168,12 +169,26 @@ function checkFoodCollision() {
 function updateSnake() {
   const head = { ...snake[0] };
 
+   
   // Update head position based on direction
   if (direction === "right") head.x += 1;
   if (direction === "left") head.x -= 1;
   if (direction === "up") head.y -= 1;
   if (direction === "down") head.y += 1;
 
+  if (head.x < 0 || head.x >= canvas.width / tileSize || head.y < 0 || head.y >= canvas.height / tileSize) {
+    gameOver = true;
+    console.log("Game Over");
+  }
+  
+  /*for (let i = 0; i < snakeBody.length; i++) {
+    if (head) == snake[i][0] && snakeY == snakeBody[i][1])
+       { 
+        
+        // Snake eats own body
+        gameOver = true;
+    }
+  }*/
   // Add new head to the snake
   snake.unshift(head);
 
